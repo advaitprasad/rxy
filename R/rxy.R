@@ -1,3 +1,23 @@
+#' Correlation package that conducts tests between variables in a data set.
+#'
+#' This function computes correlation coefficients and their associated p-values
+#' between a dependent variable and specified independent variables.
+#'
+#' @param data The data set to perform correlation tests on.
+#' @param y The dependent variable.
+#' @param x The independent variable.
+#' @return A list containing information about the correlation tests, p-values
+#' and significance codes.
+#'
+#' @examples
+#' data(mtcars)
+#' result <- ryx(mtcars, y = "mpg", x = c("disp", "hp", "wt"))
+#' print(result)
+#' plot(result)
+#' summary(result)
+
+
+
 ryx <- function(data, y, x){
   if(missing(x)){
     x <- names(data)[sapply(data, class)=="numeric"]
@@ -51,9 +71,12 @@ summary.ryx <- function(object) {
 plot.ryx <- function(x, ...) {
   rev_df <- x$df[nrow(x$df):1, ]
 
-  # Create a blank plot
-  plot(NULL, xlim = c(-1, 1), ylim = c(0, nrow(x$df)),
-       xlab = "Correlation Coefficient", ylab = "Variables", yaxt = "n")
+
+  plot(NULL, xlim = c(0, 1), ylim = c(0, nrow(x$df) + 1),
+       xlab = "Absolute Correlation Coefficient", ylab = "Variables", yaxt = "n", ...)
+
+
+  abline(h = 1:nrow(x$df), col = "lightgray", lty = "dotted")
 
   # Plot lines for correlations
   for (i in 1:nrow(rev_df)) {
@@ -70,4 +93,8 @@ plot.ryx <- function(x, ...) {
 
   # Add labels for variables on the y-axis
   axis(2, at = 1:nrow(x$df), labels = rev_df$variable, las = 1, col.axis = "black", ...)
+
+  # Add legend for positive and negative correlations
+  legend("bottomright", legend = c("Negative", "Positive"), pch = 19,
+         col = c("red", "blue"), bty = "n", cex = 1.2)
 }

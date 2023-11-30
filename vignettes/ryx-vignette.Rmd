@@ -1,0 +1,51 @@
+---
+title: "ryx-vignette.Rmd"
+author: "Advait Prasad"
+date: '2023-11-29'
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Using the ryx Package}
+  %\VignetteEngine{knitr::rmarkdown}
+---
+
+![photo](/Users/advaitprasad/Desktop/rxy/vignettes)
+
+
+# Introduction
+
+`ryx` is a statistical package, that conducts correlation tests between two 
+variables of a given dataset. 
+
+# Installation
+
+First, install the `ryx` package:
+
+```{r}
+install.packages("ryx")
+library(ryx)
+```
+
+# Finding Correlations
+
+```{r}
+# Load dataset
+data(mtcars)
+
+# Perform correlation tests
+results <- ryx(mtcars, y = "mpg", x = c("disp", "hp", "wt"))
+
+# Display results
+print(results)
+plot(results)
+summary(results)
+```
+
+# Conclusion
+
+This vignette demonstrated the basic usage of the ryx package for conducting 
+correlation tests between variables.
+
+
+
+
+
