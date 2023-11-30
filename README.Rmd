@@ -1,1 +1,28 @@
-THIS IS A README FILE FOR ASSIGNMENT 4
+# ryx
+
+
+ryx is a custom function defined in R that computes correlations between a specified dependent variable (y) and a set of independent variables (x) within a given dataset. The function is intended to analyze relationships and determine the strength and significance of correlations.
+
+## Table of Contents
+
+- [Installation](#installation)
+- [Usage](#usage)
+- [Contributing](#contributing)
+- [License](#license)
+
+## Installation
+
+devtools::install_github("github_username/ryx")
+
+## Usage
+
+This function computes correlation coefficients and their associated p-values
+between a dependent variable and specified independent variables.
+
+## Contributing
+
+Uses MIT license
+
+## License
+
+MIT
