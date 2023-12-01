@@ -18,9 +18,8 @@ A list containing information about the correlation tests, p-values
 and significance codes.
 }
 \description{
-The function 'ryx' conducts correlation coefficients and their respective
-p-values and significance codes between a dependent variable and specified
-independent variables.
+This function computes correlation coefficients and their associated p-values
+between a dependent variable and specified independent variables.
 }
 \examples{
 data(mtcars)
@@ -28,4 +27,5 @@ result <- ryx(mtcars, y = "mpg", x = c("disp", "hp", "wt"))
 print(result)
 plot(result)
 summary(result)
+
 }

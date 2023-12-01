@@ -15,6 +15,8 @@
 #' print(result)
 #' plot(result)
 #' summary(result)
+#'
+#' @export
 
 
 
@@ -65,36 +67,18 @@ summary.ryx <- function(object) {
   cat(significant_vars, "out of", nrow(object$df), "variables were significant at the p < 0.05 level.\n")
 }
 
-# Plot function
+library(ggplot2)
+library(dplyr)
 
-# Define plot function for "ryx" class
-plot.ryx <- function(x, ...) {
-  rev_df <- x$df[nrow(x$df):1, ]
+plot_gg <- function(x) {
+  x$df <- mutate(x$df, r_abs = abs(r), sign = ifelse(r > 0, "Positive", "Negative"))
 
-
-  plot(NULL, xlim = c(0, 1), ylim = c(0, nrow(x$df) + 1),
-       xlab = "Absolute Correlation Coefficient", ylab = "Variables", yaxt = "n", ...)
-
-
-  abline(h = 1:nrow(x$df), col = "lightgray", lty = "dotted")
-
-  # Plot lines for correlations
-  for (i in 1:nrow(rev_df)) {
-    # Define x-coordinate for lines
-    x_coords <- c(0, abs(rev_df$r[i]))
-
-    # Plot lines
-    lines(x_coords, c(i, i), col = "black", lwd = 2)
-
-    # Plot circles at the end of lines with color based on correlation sign
-    circle_col <- ifelse(rev_df$r[i] > 0, "blue", "red")
-    points(abs(rev_df$r[i]), i, col = circle_col, pch = 19, cex = 1.5)
-  }
-
-  # Add labels for variables on the y-axis
-  axis(2, at = 1:nrow(x$df), labels = rev_df$variable, las = 1, col.axis = "black", ...)
-
-  # Add legend for positive and negative correlations
-  legend("bottomright", legend = c("Negative", "Positive"), pch = 19,
-         col = c("red", "blue"), bty = "n", cex = 1.2)
+  ggplot(x$df, aes(x = r_abs, y = reorder(variable, r_abs), color = sign)) +
+    geom_segment(aes(x = 0, xend = r_abs, y = reorder(variable, r_abs), yend = reorder(variable, r_abs)), size = 0.5, color = "gray") +
+    geom_point(size = 4, aes(fill = sign), shape = 21) +
+    scale_color_manual(values = c("black", "black")) +
+    scale_fill_manual(values = c("blue", "red")) +
+    labs(x = "Absolute Correlation Coefficient", y = "Variables") +
+    theme_minimal() +
+    theme(legend.position = "bottom", legend.title = element_blank())
 }
